@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs "nodejs22.0.0"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Obtener el código fuente desde el repositorio Git
+                git branch: 'main', url: 'https://github.com/mauromamani/react-jenkins-arctifacts.git'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                // Instalar dependencias
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Construir la aplicación React con Vite
+                sh 'npm run build'
+            }
+        }
+
+        // Construir imagen
+        stage('Dockerize') {
+            steps {
+                sh 'docker image build -t react-image:latest .'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                // Archivar el código construido
+                archiveArtifacts artifacts: 'dist/**', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        always {
+            // Limpiar el workspace después de finalizar el pipeline
+            cleanWs()
+        }
+    }
+}
