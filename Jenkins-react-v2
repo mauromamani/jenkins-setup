@@ -1,0 +1,45 @@
+
+
+
+pipeline {
+    agent any
+    
+    tools {
+        nodejs "NODEJS"
+    }
+    
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                git branch: 'main', credentialsId: '70a5971c-0763-41c8-823f-e2fa7c4aac9f', url: 'git@github.com:MPA-SISTEMAS/denuncias-parte-interna.git'
+              
+            }
+        }
+        
+        stage('Install') {
+            steps {
+                // Cambiar al directorio del cliente e instalar dependencias
+                dir('client') {
+                    sh 'npm install'
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Cambiar al directorio del cliente y construir la aplicación
+                dir('client') {
+                    sh 'npm run build'
+                }
+            }
+        }
+     
+        stage('Archive') {
+            steps {
+                // Archivar el código construido
+                archiveArtifacts artifacts: 'client/dist/**', fingerprint: true
+            }
+        }
+        // Agrega más etapas según tus necesidades
+    }
+}
