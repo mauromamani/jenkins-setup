@@ -1,6 +1,3 @@
-
-
-
 pipeline {
     agent any
     
@@ -8,38 +5,70 @@ pipeline {
         nodejs "NODEJS"
     }
     
+    environment {
+        // Host
+        VITE_HOST_BACKEND_INTERNO = "https://gestion.mpajujuy.gob.ar"
+        VITE_HOST_BACKEND_EXTERNO = "https://denuncias.mpajujuy.gob.ar"
+        
+        // Para Mapas
+        VITE_GOOGLE_MAPS_API_KEY = "AIzaSyB9XerbY6zq1u0LZYj-LYq47n3Pkkn2vXU"
+        
+        // Para peticiones
+        VITE_BACKEND_URL_INTERNO = "https://gestion.mpajujuy.gob.ar/api"
+        VITE_BACKEND_URL_EXTERNO = "https://denuncias.mpajujuy.gob.ar/api-denuncias"
+        
+        // para complementar las rutas de archivos
+        VITE_BACKEND_UPLOADS_INTERNO = "https://gestion.mpajujuy.gob.ar/uploads"
+        VITE_BACKEND_UPLOADS_EXTERNO = "https://denuncias.mpajujuy.gob.ar/uploads"
+        
+        // para firma digital
+        VITE_LAKUNA_WEB_PKI = "AhEAKi5tcGFqdWp1eS5nb2IuYXJDAGlwNDoxMC4wLjAuMC84LGlwNDoxMjcuMC4wLjAvOCxpcDQ6MTcyLjE2LjAuMC8xMixpcDQ6MTkyLjE2OC4wLjAvMTYCAENBAAAAAbTpr/N1lt6J9Epym9irhIaFQcqPB1dDmav4BMj+fWyart1sDggK6Kh3gEqw/aJ+K6uf9rH+SZ4d7RjQqA6A8UizcAtX6jz6qhn9bK26ss/jvrta4jgSnQQaOK7TtAJ64YhgPhtLz1DJLByjyZIls4qYoQgVK8GNm4zcceXMTFa3eBNqEkQS3NttZ+YQddkOQnTDaEjQc/oyG3ZTQ/QbNMnpnt6IUhYElZfkgIEGfrW/S1JdTLGuBsYXMDbjZkU42yqgJKPv0KfFvkgE9nO9Y3+c2mv67yaUMyPx7bR3dGONembWp9j5kT0JzUPxr3OcvvLIPiTEhzX2zlDXetgM0MQ="
+        
+        // para ver archivos
+        VITE_GET_COMPROBANTE_PDF = "https://denuncias.mpajujuy.gob.ar/uploads/comprobantes" 
+        VITE_GET_ADJUNTOS = "https://denuncias.mpajujuy.gob.ar/uploads/adjuntos/denuncias-adjuntos"
+        VITE_GET_ADJUNTOS_LABORATORIO = "https://gestion.mpajujuy.gob.ar/uploads/pedidos-adjuntos"
+        VITE_GET_INTERVINIENTE_FOTO = "https://gestion.mpajujuy.gob.ar/uploads/interviniente-foto"
+        VITE_GET_INTERVINIENTE_FOTOS_DNI = "https://denuncias.mpajujuy.gob.ar/uploads/interviniente-adjuntos"
+        VITE_GET_DECRETO_INTERVINIENTE = "https://gestion.mpajujuy.gob.ar/uploads/decretos"
+        VITE_GET_OFICIO_INTERVINIENTE = "https://gestion.mpajujuy.gob.ar/uploads/oficios"
+        VITE_GET_MEDIDA_ORGANISMO_PDF = "https://gestion.mpajujuy.gob.ar/uploads/medidas-organismo"
+        VITE_GET_FIRMA_DIGITAL = "https://gestion.mpajujuy.gob.ar/uploads/firma-digital"
+        VITE_GET_SECUESTRO_ADJUNTOS = "https://gestion.mpajujuy.gob.ar/uploads/secuestros-adjuntos"
+    }
+    
     stages {
-        stage('Clonar repositorio') {
+        // Checkout the code
+        stage('Checkout the code') {
             steps {
                 git branch: 'main', credentialsId: '70a5971c-0763-41c8-823f-e2fa7c4aac9f', url: 'git@github.com:MPA-SISTEMAS/denuncias-parte-interna.git'
               
             }
         }
-        
-        stage('Install') {
+
+        // Install dependencies for react app
+        stage('Install client dependencies') {
             steps {
-                // Cambiar al directorio del cliente e instalar dependencias
                 dir('client') {
                     sh 'npm install'
                 }
             }
         }
         
-        stage('Build') {
+        // Build react app
+        stage('Build client app') {
             steps {
-                // Cambiar al directorio del cliente y construir la aplicación
                 dir('client') {
                     sh 'npm run build'
                 }
             }
         }
      
-        stage('Archive') {
+        // Archive the build
+        stage('Archive the build') {
             steps {
-                // Archivar el código construido
                 archiveArtifacts artifacts: 'client/dist/**', fingerprint: true
             }
         }
-        // Agrega más etapas según tus necesidades
     }
 }
