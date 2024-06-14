@@ -11,7 +11,7 @@ pipeline {
         VITE_HOST_BACKEND_EXTERNO = "https://denuncias.mpajujuy.gob.ar"
         
         // Para Mapas
-        VITE_GOOGLE_MAPS_API_KEY = "AIzaSyB9XerbY6zq1u0LZYj-LYq47n3Pkkn2vXU"
+        VITE_GOOGLE_MAPS_API_KEY = ""
         
         // Para peticiones
         VITE_BACKEND_URL_INTERNO = "https://gestion.mpajujuy.gob.ar/api"
@@ -22,7 +22,7 @@ pipeline {
         VITE_BACKEND_UPLOADS_EXTERNO = "https://denuncias.mpajujuy.gob.ar/uploads"
         
         // para firma digital
-        VITE_LAKUNA_WEB_PKI = "AhEAKi5tcGFqdWp1eS5nb2IuYXJDAGlwNDoxMC4wLjAuMC84LGlwNDoxMjcuMC4wLjAvOCxpcDQ6MTcyLjE2LjAuMC8xMixpcDQ6MTkyLjE2OC4wLjAvMTYCAENBAAAAAbTpr/N1lt6J9Epym9irhIaFQcqPB1dDmav4BMj+fWyart1sDggK6Kh3gEqw/aJ+K6uf9rH+SZ4d7RjQqA6A8UizcAtX6jz6qhn9bK26ss/jvrta4jgSnQQaOK7TtAJ64YhgPhtLz1DJLByjyZIls4qYoQgVK8GNm4zcceXMTFa3eBNqEkQS3NttZ+YQddkOQnTDaEjQc/oyG3ZTQ/QbNMnpnt6IUhYElZfkgIEGfrW/S1JdTLGuBsYXMDbjZkU42yqgJKPv0KfFvkgE9nO9Y3+c2mv67yaUMyPx7bR3dGONembWp9j5kT0JzUPxr3OcvvLIPiTEhzX2zlDXetgM0MQ="
+        VITE_LAKUNA_WEB_PKI = ""
         
         // para ver archivos
         VITE_GET_COMPROBANTE_PDF = "https://denuncias.mpajujuy.gob.ar/uploads/comprobantes" 
